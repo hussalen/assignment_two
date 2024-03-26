@@ -15,7 +15,10 @@ namespace assignment_two
         private int maxPayload;
 
         public abstract void emptyCargo();
-        public abstract void loadCargo(int mass);
-
+        public void loadCargo(int mass) {
+            if (mass > maxPayload) {
+                throw new OverfillException("Mass > maxPayload");
+            }
+        }
     }
 }
