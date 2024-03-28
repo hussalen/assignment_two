@@ -8,15 +8,15 @@ namespace assignment_two
         // Container dimensions
         private int mass;
         private int height;
-        private int tareWeight;
+        public int TareWeight { get; set; }
         private int depth;
 
-        public static string SnContainerType { get; set; } = nameof(ContainerUtils.ContainerType.Default);
+        public static ContainerUtils.ContainerType SnContainerType { get; set; } = ContainerUtils.ContainerType.Default;
         public string SerialNumber { get; set; }
         private static int snUniqueNum;
         public int MaxPayload { get; set; }
 
-        private List<Cargo> container;
+        public List<Cargo> CargoContainer;
 
         private ContainerUtils cu;
 
@@ -25,28 +25,28 @@ namespace assignment_two
             this.cu = cu;
 
             SerialNumber = "KON-" + SnContainerType + "-" + ++snUniqueNum;
-            container = [];
-            tareWeight = 0;
+            CargoContainer = [];
+            TareWeight = 0;
             MaxPayload = maxPayLoad;
         }
 
         public abstract void EmptyCargo();
 
         public void LoadContainer(Cargo cargo) {
-            if (cargo.Mass > tareWeight || cargo.Mass > MaxPayload) 
+            if (cargo.Mass > TareWeight || cargo.Mass > MaxPayload) 
             {
                 throw new OverfillException("Mass > maxPayload");
             }
-            tareWeight += cargo.Mass;
-            container.Add(cargo);
+            TareWeight += cargo.Mass;
+            CargoContainer.Add(cargo);
             Console.WriteLine("Adding cargo '" + cargo.Name + "' , weight of cargo: " + cargo.Mass 
-            + ", current weight of container: " + tareWeight);
+            + ", current weight of container: " + TareWeight);
         }
 
         public void SetContainerType(ContainerUtils.ContainerType ct)
         {
-            SnContainerType = nameof(ct);
-            SerialNumber = "KON-" + SnContainerType + "-" + snUniqueNum;
+            SnContainerType = ct;
+            SerialNumber = "KON-" + nameof(SnContainerType) + "-" + snUniqueNum;
         }
     }
 }
