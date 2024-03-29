@@ -2,16 +2,10 @@ using assignment_two.utils;
 
 namespace assignment_two
 {
-    public abstract class Cargo
+    public class Cargo(cargoutils.CargoType type, uint mass)
     {
-        public int Mass {get;}
-        public string Name {get;}
-        public cargoutils.CargoType Type {get; set;}
-
-        public Cargo(string name)
-        {
-            Name = name;
-             
-        }
+        public uint Mass { get; } = mass;
+        public cargoutils.CargoType Type { get; set; } = type;
+        public string Name {get; private set;} = type.ToString();
     }
 }

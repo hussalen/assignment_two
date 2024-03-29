@@ -23,7 +23,7 @@ namespace assignment_two.utils
             
         }
 
-        public void LoadContainerToShip(Ship ship, params Container[] container) 
+        public void LoadShipWithContainer(Ship ship, params Container[] container) 
         {
             
         }
