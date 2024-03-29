@@ -5,10 +5,10 @@ namespace assignment_two.containers
     public class RefrigeratedContainer : Container, IHazardNotifier
     {
         private ContainerUtils cu;
-        
+
         public RefrigeratedContainer(ContainerUtils cu, uint maxPayLoad) : base(cu, maxPayLoad)
         {
-            this.cu = cu;
+            
         }
 
         protected override ContainerUtils.ContainerType SnContainerType
