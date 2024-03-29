@@ -11,8 +11,8 @@ namespace assignment_two
         public uint TareWeight { get; set; }
         private uint depth;
 
-        protected static ContainerUtils.ContainerType SnContainerType { get; set; } = ContainerUtils.ContainerType.Default;
-        protected static string SerialNumber { get; private set; }
+        protected abstract ContainerUtils.ContainerType SnContainerType { get; }
+        protected string SerialNumber { get; private set; }
         private static int snUniqueNum;
         protected uint MaxPayload { get; private set; }
 
@@ -45,7 +45,6 @@ namespace assignment_two
 
         public void SetContainerType(ContainerUtils.ContainerType ct)
         {
-            SnContainerType = ct;
             SerialNumber = "KON-" + SnContainerType.ToString()[0] + "-" + snUniqueNum;
         }
     }
