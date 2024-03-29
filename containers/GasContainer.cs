@@ -8,13 +8,16 @@ namespace assignment_two.containers
         
         public GasContainer(ContainerUtils cu, uint maxPayLoad) : base(cu, maxPayLoad)
         {
-            SnContainerType = ContainerUtils.ContainerType.Liquid;
             this.cu = cu;
+        }
+
+        protected override ContainerUtils.ContainerType SnContainerType
+        {
+            get { return ContainerUtils.ContainerType.Gas; }
         }
 
         public override void LoadContainer(Cargo cargo)
         {
-            base.LoadContainer(cargo);
             switch (cargo.Type) 
             {
                 case cargoutils.CargoType.Hazardous:
@@ -25,6 +28,7 @@ namespace assignment_two.containers
                 default:
                     throw new Exception("Unexpected type: " + cargo.Type);
             }
+            base.LoadContainer(cargo);
         }
 
         protected override void EmptyCargo()
