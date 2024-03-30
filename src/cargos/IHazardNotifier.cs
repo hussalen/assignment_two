@@ -1,4 +1,4 @@
-namespace assignment_two.utils
+namespace assignment_two.src.cargos
 {
     public interface IHazardNotifier
     {

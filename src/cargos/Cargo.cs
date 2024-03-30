@@ -1,6 +1,6 @@
 using assignment_two.utils;
 
-namespace assignment_two
+namespace assignment_two.src.cargos
 {
     public class Cargo(cargoutils.CargoType type, uint mass)
     {

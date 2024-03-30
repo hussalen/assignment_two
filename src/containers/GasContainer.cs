@@ -1,6 +1,7 @@
+using assignment_two.src.cargos;
 using assignment_two.utils;
 
-namespace assignment_two.containers
+namespace assignment_two.src.containers
 {
     public class GasContainer : Container, IHazardNotifier
     {

@@ -1,6 +1,7 @@
+using assignment_two.src.cargos;
 using assignment_two.utils;
 
-namespace assignment_two
+namespace assignment_two.src.containers
 {
     public abstract class Container
     {
@@ -68,7 +69,7 @@ namespace assignment_two
 
         public void SetContainerType(ContainerUtils.ContainerType ct)
         {
-            SerialNumber = "KON-" + SnContainerType.ToString()[0] + "-" + snUniqueNum;
+            SerialNumber = "KON-" + ct.ToString()[0] + "-" + snUniqueNum;
         }
     }
 }
