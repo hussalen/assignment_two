@@ -5,8 +5,9 @@ namespace assignment_two.containers
     public class GasContainer : Container, IHazardNotifier
     {
         private ContainerUtils cu;
-        
-        public GasContainer(ContainerUtils cu, uint maxPayLoad) : base(cu, maxPayLoad)
+
+        public GasContainer(ContainerUtils cu, uint maxPayLoad)
+            : base(cu, maxPayLoad)
         {
             this.cu = cu;
         }
@@ -18,12 +19,12 @@ namespace assignment_two.containers
 
         public override void LoadContainer(Cargo cargo)
         {
-            switch (cargo.Type) 
+            switch (cargo.Type)
             {
                 case cargoutils.CargoType.Hazardous:
                     IHazardNotifier.SendHazardAlert(SerialNumber);
                     break;
-                    case cargoutils.CargoType.Gas:
+                case cargoutils.CargoType.Gas:
                     break;
                 default:
                     throw new Exception("Unexpected type: " + cargo.Type);
@@ -31,10 +32,10 @@ namespace assignment_two.containers
             base.LoadContainer(cargo);
         }
 
-        protected override void EmptyCargo()
+        public override void EmptyCargo()
         {
-            cargo = null;
-            TareWeight *= 1/20;
+            base.EmptyCargo();
+            TareWeight *= 1 / 20;
         }
     }
 }

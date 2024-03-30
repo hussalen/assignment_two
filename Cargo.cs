@@ -6,6 +6,6 @@ namespace assignment_two
     {
         public uint Mass { get; } = mass;
         public cargoutils.CargoType Type { get; set; } = type;
-        public string Name {get; private set;} = type.ToString();
+        public string Name { get; private set; } = type.ToString();
     }
 }

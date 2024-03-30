@@ -1,4 +1,3 @@
-using System.Globalization;
 using assignment_two.utils;
 
 namespace assignment_two
@@ -29,17 +28,41 @@ namespace assignment_two
             MaxPayload = maxPayLoad;
         }
 
-        protected abstract void EmptyCargo();
-
-        public virtual void LoadContainer(Cargo cargo) {
-            TareWeight += cargo.Mass;
-            if (cargo.Mass > TareWeight || cargo.Mass > MaxPayload) 
+        public virtual void EmptyCargo()
+        {
+            if (cargo != null)
             {
-                throw new OverfillException("Mass ( " + cargo.Mass + ") > maxPayload (" + MaxPayload + ")");
+                cargo = null;
+                Console.WriteLine(
+                    "Container "
+                        + SerialNumber
+                        + " that contained "
+                        + SnContainerType
+                        + " has been emptied."
+                );
+                return;
+            }
+            Console.WriteLine("EmptyCargo() failed: Container is already empty.");
+        }
+
+        public virtual void LoadContainer(Cargo cargo)
+        {
+            TareWeight += cargo.Mass;
+            if (cargo.Mass > TareWeight || cargo.Mass > MaxPayload)
+            {
+                throw new OverfillException(
+                    "Mass ( " + cargo.Mass + ") > maxPayload (" + MaxPayload + ")"
+                );
             }
             this.cargo = cargo;
-            Console.WriteLine("Adding cargo '" + cargo.Name + "' , weight of cargo: " + cargo.Mass 
-            + ", current weight of container: " + TareWeight);
+            Console.WriteLine(
+                "Adding cargo '"
+                    + cargo.Name
+                    + "' , weight of cargo: "
+                    + cargo.Mass
+                    + ", current weight of container: "
+                    + TareWeight
+            );
             Console.WriteLine("Max payload weight of " + SerialNumber + ": " + MaxPayload);
         }
 
