@@ -6,9 +6,10 @@ namespace assignment_two.containers
     {
         private ContainerUtils cu;
 
-        public RefrigeratedContainer(ContainerUtils cu, uint maxPayLoad) : base(cu, maxPayLoad)
+        public RefrigeratedContainer(ContainerUtils cu, uint maxPayLoad)
+            : base(cu, maxPayLoad)
         {
-            
+            this.cu = cu;
         }
 
         protected override ContainerUtils.ContainerType SnContainerType
@@ -19,22 +20,22 @@ namespace assignment_two.containers
         public override void LoadContainer(Cargo cargo)
         {
             base.LoadContainer(cargo);
-            switch (cargo.Type) 
+            switch (cargo.Type)
             {
                 case cargoutils.CargoType.Hazardous:
                     IHazardNotifier.SendHazardAlert(SerialNumber);
                     break;
-                    case cargoutils.CargoType.Gas:
+                case cargoutils.CargoType.Gas:
                     break;
                 default:
                     throw new Exception("Unexpected type: " + cargo.Type);
             }
         }
 
-        protected override void EmptyCargo()
+        public override void EmptyCargo()
         {
-            cargo = null;
-            TareWeight *= 1/20;
+            TareWeight = 0;
+            base.EmptyCargo();
         }
     }
 }

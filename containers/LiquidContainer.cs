@@ -1,5 +1,3 @@
-using System.Globalization;
-using System.Runtime;
 using assignment_two.utils;
 
 namespace assignment_two.containers
@@ -7,8 +5,9 @@ namespace assignment_two.containers
     public class LiquidContainer : Container, IHazardNotifier
     {
         private ContainerUtils cu;
-        
-        public LiquidContainer(ContainerUtils cu, uint maxPayLoad) : base(cu, maxPayLoad)
+
+        public LiquidContainer(ContainerUtils cu, uint maxPayLoad)
+            : base(cu, maxPayLoad)
         {
             this.cu = cu;
         }
@@ -22,10 +21,10 @@ namespace assignment_two.containers
         {
             base.LoadContainer(cargo);
             uint maxForType = 0;
-            switch (cargo.Type) 
+            switch (cargo.Type)
             {
                 case cargoutils.CargoType.Ordinary:
-                    maxForType = MaxPayload * 9/10;
+                    maxForType = MaxPayload * 9 / 10;
                     break;
                 case cargoutils.CargoType.Hazardous:
                     maxForType = MaxPayload / 2;
@@ -34,17 +33,24 @@ namespace assignment_two.containers
                 default:
                     throw new Exception("Unexpected type: " + cargo.Type);
             }
-            if(cargo.Mass > maxForType)
+            if (cargo.Mass > maxForType)
             {
-                Console.WriteLine(nameof(cargo.Type) + " Mass (" 
-                + cargo.Mass + ") > " + maxForType * 100.0 / MaxPayload
-                + "% of maxPayload (" + maxForType + ")");
+                Console.WriteLine(
+                    nameof(cargo.Type)
+                        + " Mass ("
+                        + cargo.Mass
+                        + ") > "
+                        + maxForType * 100.0 / MaxPayload
+                        + "% of maxPayload ("
+                        + maxForType
+                        + ")"
+                );
             }
         }
 
-        protected override void EmptyCargo()
+        public override void EmptyCargo()
         {
-            cargo = null;
+            base.EmptyCargo();
             TareWeight = 0;
         }
     }
