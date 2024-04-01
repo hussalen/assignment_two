@@ -26,6 +26,7 @@ namespace assignment_two.src.containers
             this.cu = cu;
 
             SerialNumber = "KON-" + SnContainerType.ToString()[0] + "-" + ++nextId;
+            SnUniqueNum = nextId;
             TareWeight = 0;
             MaxPayload = maxPayLoad;
         }
@@ -79,7 +80,7 @@ namespace assignment_two.src.containers
                 + SerialNumber
                 + ", Max Payload: "
                 + MaxPayload
-                + "Current Weight: "
+                + " Current Weight: "
                 + TareWeight;
         }
     }
