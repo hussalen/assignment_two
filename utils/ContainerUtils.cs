@@ -6,6 +6,15 @@ namespace assignment_two.utils
     {
         private ContainerUtils() { }
 
+        public enum ContainerType
+        {
+            Default,
+
+            Liquid,
+            Gas,
+            Refrigerated
+        }
+
         private static ContainerUtils instance = null;
         public static ContainerUtils Instance
         {
@@ -17,15 +26,6 @@ namespace assignment_two.utils
                 }
                 return instance;
             }
-        }
-
-        public enum ContainerType
-        {
-            Default,
-
-            Liquid,
-            Gas,
-            Refrigerated
         }
     }
 }

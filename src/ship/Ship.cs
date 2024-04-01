@@ -1,3 +1,4 @@
+using assignment_two.src.cargos;
 using assignment_two.src.containers;
 using assignment_two.utils;
 
@@ -5,7 +6,7 @@ namespace assignment_two
 {
     public class Ship
     {
-        private List<Container> containers;
+        private Dictionary<uint, Container> containers;
         public ContainerUtils ContainerUtils { get; private set; }
         public CargoUtils CargoUtils { get; private set; }
 
@@ -63,18 +64,82 @@ namespace assignment_two
             return null;
         }
 
-        public void LoadCargo(Container container) { }
+        public void LoadCargo(Cargo cargo, Container container)
+        {
+            container.LoadContainer(cargo);
+        }
 
-        public void LoadShipWithContainer(Ship ship, params Container[] container) { }
+        public void LoadShipWithContainer(params Container[] container)
+        {
+            foreach (Container i in container)
+            {
+                containers.Add(i.SnUniqueNum, i);
+            }
+            Console.WriteLine("Added container(s)!");
+        }
 
-        public void RemoveContainerFromShip(Ship ship, Container container) { }
+        public void RemoveContainerFromShip(Container container)
+        {
+            containers.Remove(container.SnUniqueNum);
+            Console.WriteLine("Removed " + container.SerialNumber);
+            Console.WriteLine("Current container(s) stored on ship: " + containers);
+        }
 
-        public void ReplaceContainer(Ship ship, Container c1, Container c2) { }
+        public void UnloadContainer(Container container)
+        {
+            container.EmptyCargo();
+        }
 
-        public void TransferContainer(Ship ship, Container container) { }
+        public void ReplaceContainer(Container c1, Container c2)
+        {
+            if (c1.GetType() == c2.GetType())
+            {
+                Container currentContainerInShip = containers[c1.SnUniqueNum];
+                if (currentContainerInShip != null)
+                {
+                    RemoveContainerFromShip(containers[c1.SnUniqueNum]);
+                    LoadShipWithContainer(c2);
+                    return;
+                }
+                Console.WriteLine("Ship does not have " + c1.SerialNumber);
+                return;
+            }
+            Console.WriteLine(
+                "Uh oh, the containers (c1: "
+                    + c1.SerialNumber
+                    + ", c2: + "
+                    + c2.SerialNumber
+                    + ") are not of the same type"
+            );
+        }
 
-        public void PrintContainerInfo(Container container) { }
+        public void TransferContainerToOtherShip(Ship ship, Container container)
+        {
+            Container currentContainerInShip = containers[container.SnUniqueNum];
+            if (currentContainerInShip != null)
+            {
+                RemoveContainerFromShip(containers[container.SnUniqueNum]);
+                ship.LoadShipWithContainer(container);
+                return;
+            }
+            Console.WriteLine("Ship does not have " + container.SerialNumber);
+        }
 
-        public void PrintShipAndCargo(Ship ship) { }
+        public void PrintContainerInfo(Container container)
+        {
+            Console.WriteLine(container);
+        }
+
+        public void PrintShipAndCargoInfo()
+        {
+            Console.WriteLine("Containers in ship: " + containers);
+            string cargos = "";
+            foreach (KeyValuePair<uint, Container> entry in containers)
+            {
+                if (entry.Value.cargo != null)
+                    cargos += " [" + entry.Value.cargo.Type + "]";
+            }
+            Console.WriteLine("Cargos within the containers: " + cargos);
+        }
     }
 }

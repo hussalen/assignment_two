@@ -14,7 +14,8 @@ LiquidContainer liquidContainer = new(ship.ContainerUtils, 500);
 LiquidContainer liquidContainer2 = new(ship.ContainerUtils, 500);
 LiquidContainer liquidContainer3 = new(ship.ContainerUtils, 500);
 
-GasContainer gasContainer1 = new(ship.ContainerUtils, 750);
+GasContainer gasContainer1 = (GasContainer)
+    ship.CreateContainer(ContainerUtils.ContainerType.Gas, 750);
 
 RefrigeratedContainer fridgedContainer =
     new(ship.ContainerUtils, ship.CargoUtils, 500, CargoUtils.CargoProductType.None, 20);
@@ -30,5 +31,3 @@ Console.WriteLine("---------------");
 liquidContainer3.LoadContainer(hazardousCargo1);
 Console.WriteLine("---------------");
 fridgedContainer.LoadContainer(fridgedCargo);
-
-//Console.WriteLine(liquidContainer3.SerialNumber);
