@@ -63,5 +63,14 @@ namespace assignment_two.src.containers
             TareWeight = 0;
             base.EmptyCargo();
         }
+
+        public override string ToString()
+        {
+            return base.ToString()
+                + ", Product Type: "
+                + productType
+                + ", Max Temperature: "
+                + maxTemperature;
+        }
     }
 }

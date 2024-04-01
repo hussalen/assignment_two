@@ -21,7 +21,7 @@ namespace assignment_two.src.containers
         public override void LoadContainer(Cargo cargo)
         {
             base.LoadContainer(cargo);
-            uint maxForType = 0;
+            uint maxForType;
             switch (cargo.Type)
             {
                 case CargoUtils.CargoType.Ordinary:

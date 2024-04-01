@@ -12,8 +12,9 @@ namespace assignment_two.src.containers
         private uint depth;
 
         protected abstract ContainerUtils.ContainerType SnContainerType { get; }
-        protected string SerialNumber { get; private set; }
-        private static int snUniqueNum;
+        public string SerialNumber { get; private set; }
+        protected static uint nextId;
+        public uint SnUniqueNum { get; private set; }
         protected uint MaxPayload { get; private set; }
 
         public Cargo? cargo;
@@ -24,7 +25,7 @@ namespace assignment_two.src.containers
         {
             this.cu = cu;
 
-            SerialNumber = "KON-" + SnContainerType.ToString()[0] + "-" + ++snUniqueNum;
+            SerialNumber = "KON-" + SnContainerType.ToString()[0] + "-" + ++nextId;
             TareWeight = 0;
             MaxPayload = maxPayLoad;
         }
@@ -58,7 +59,7 @@ namespace assignment_two.src.containers
             this.cargo = cargo;
             Console.WriteLine(
                 "Adding cargo '"
-                    + cargo.Name
+                    + cargo.Type
                     + "' , weight of cargo: "
                     + cargo.Mass
                     + ", current weight of container: "
@@ -69,7 +70,17 @@ namespace assignment_two.src.containers
 
         public void SetContainerType(ContainerUtils.ContainerType ct)
         {
-            SerialNumber = "KON-" + ct.ToString()[0] + "-" + snUniqueNum;
+            SerialNumber = "KON-" + ct.ToString()[0] + "-" + SnUniqueNum;
+        }
+
+        public override string ToString()
+        {
+            return "Container Serial number: "
+                + SerialNumber
+                + ", Max Payload: "
+                + MaxPayload
+                + "Current Weight: "
+                + TareWeight;
         }
     }
 }
