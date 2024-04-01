@@ -1,23 +1,34 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using assignment_two;
 using assignment_two.src.cargos;
 using assignment_two.src.containers;
 using assignment_two.utils;
 
-ContainerUtils cu = new();
-LiquidContainer liquidContainer = new(cu, 500);
-LiquidContainer liquidContainer2 = new(cu, 500);
-LiquidContainer liquidContainer3 = new(cu, 500);
+ContainerUtils containerUtils = ContainerUtils.Instance;
+CargoUtils cargoUtils = CargoUtils.Instance;
 
-GasContainer gasContainer1 = new(cu, 750);
+Ship ship = new Ship(containerUtils, cargoUtils);
 
-Cargo hazardousCargo1 = new(cargoutils.CargoType.Hazardous, 251);
-Cargo ordinaryCargo = new(cargoutils.CargoType.Ordinary, 500);
-Cargo gasCargo = new(cargoutils.CargoType.Gas, 700);
+LiquidContainer liquidContainer = new(ship.ContainerUtils, 500);
+LiquidContainer liquidContainer2 = new(ship.ContainerUtils, 500);
+LiquidContainer liquidContainer3 = new(ship.ContainerUtils, 500);
+
+GasContainer gasContainer1 = new(ship.ContainerUtils, 750);
+
+RefrigeratedContainer fridgedContainer =
+    new(ship.ContainerUtils, ship.CargoUtils, 500, CargoUtils.CargoProductType.None, 20);
+
+Cargo hazardousCargo1 = new(CargoUtils.CargoType.Hazardous, 251);
+Cargo ordinaryCargo = new(CargoUtils.CargoType.Ordinary, 500);
+Cargo gasCargo = new(CargoUtils.CargoType.Gas, 700);
+Cargo fridgedCargo = new(CargoUtils.CargoType.Ordinary, 300);
 
 gasContainer1.LoadContainer(gasCargo);
 gasContainer1.EmptyCargo();
 Console.WriteLine("---------------");
 liquidContainer3.LoadContainer(hazardousCargo1);
+Console.WriteLine("---------------");
+fridgedContainer.LoadContainer(fridgedCargo);
 
 //Console.WriteLine(liquidContainer3.SerialNumber);
