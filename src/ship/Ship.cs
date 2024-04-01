@@ -1,3 +1,4 @@
+using System.Data.SqlTypes;
 using assignment_two.src.cargos;
 using assignment_two.src.containers;
 using assignment_two.utils;
@@ -10,13 +11,18 @@ namespace assignment_two
         public ContainerUtils ContainerUtils { get; private set; }
         public CargoUtils CargoUtils { get; private set; }
 
+        protected static uint nextId;
+        public uint Id { get; private set; }
+
         public Ship(ContainerUtils containerUtils, CargoUtils cargoUtils)
         {
+            containers = [];
             ContainerUtils = containerUtils;
             CargoUtils = cargoUtils;
+            Id = ++nextId;
         }
 
-        public Container? CreateContainer(
+        public Container CreateContainer(
             ContainerUtils.ContainerType containerType,
             uint maxPayLoad
         )
@@ -61,10 +67,11 @@ namespace assignment_two
                     );
                     return new RefrigeratedContainer(ContainerUtils, CargoUtils, maxPayLoad, 0, 20);
             }
-            return null;
+            Console.WriteLine("Something went wrong! Returning liquid..");
+            return new LiquidContainer(ContainerUtils, maxPayLoad);
         }
 
-        public void LoadCargo(Cargo cargo, Container container)
+        public void LoadCargo(Container container, Cargo cargo)
         {
             container.LoadContainer(cargo);
         }
@@ -73,44 +80,57 @@ namespace assignment_two
         {
             foreach (Container i in container)
             {
-                containers.Add(i.SnUniqueNum, i);
+                try
+                {
+                    containers.Add(i.SnUniqueNum, i);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine(
+                        "Container " + i.SerialNumber + " is already loaded in the ship."
+                    );
+                    continue;
+                }
             }
-            Console.WriteLine("Added container(s)!");
+            Console.WriteLine("Added container(s) to ship with ID " + Id + "!");
         }
 
         public void RemoveContainerFromShip(Container container)
         {
             containers.Remove(container.SnUniqueNum);
-            Console.WriteLine("Removed " + container.SerialNumber);
-            Console.WriteLine("Current container(s) stored on ship: " + containers);
+            Console.WriteLine("Removed " + container.SerialNumber + " from ship with ID " + Id);
         }
 
         public void UnloadContainer(Container container)
         {
             container.EmptyCargo();
+            Console.WriteLine("Unloaded " + container.SerialNumber + " from the ship");
         }
 
         public void ReplaceContainer(Container c1, Container c2)
         {
-            if (c1.GetType() == c2.GetType())
+            if (c1 == null || c2 == null)
             {
-                Container currentContainerInShip = containers[c1.SnUniqueNum];
-                if (currentContainerInShip != null)
-                {
-                    RemoveContainerFromShip(containers[c1.SnUniqueNum]);
-                    LoadShipWithContainer(c2);
-                    return;
-                }
-                Console.WriteLine("Ship does not have " + c1.SerialNumber);
+                Console.WriteLine("Ship does not exist, ReplaceContainer failed..");
                 return;
             }
-            Console.WriteLine(
-                "Uh oh, the containers (c1: "
-                    + c1.SerialNumber
-                    + ", c2: + "
-                    + c2.SerialNumber
-                    + ") are not of the same type"
-            );
+            if (c1 == c2)
+            {
+                Console.WriteLine(
+                    "Same container was provided twice in ReplaceContainer method, nothing is done.."
+                );
+                return;
+            }
+
+            Container currentContainerInShip = containers[c1.SnUniqueNum];
+            if (currentContainerInShip != null)
+            {
+                RemoveContainerFromShip(containers[c1.SnUniqueNum]);
+                LoadShipWithContainer(c2);
+                return;
+            }
+            Console.WriteLine("Ship does not have " + c1.SerialNumber);
+            return;
         }
 
         public void TransferContainerToOtherShip(Ship ship, Container container)
@@ -127,19 +147,44 @@ namespace assignment_two
 
         public void PrintContainerInfo(Container container)
         {
-            Console.WriteLine(container);
+            Console.WriteLine(container.ToString());
         }
 
         public void PrintShipAndCargoInfo()
         {
-            Console.WriteLine("Containers in ship: " + containers);
-            string cargos = "";
+            Console.WriteLine("Ship ID: " + Id);
+            Console.WriteLine("Containers in ship: " + GetContainersList());
+            string cargos = "[ ";
+
+            foreach (Container entry in containers.Values)
+            {
+                try
+                {
+                    cargos += entry.cargo.Type;
+                }
+                catch
+                {
+                    Console.WriteLine("Missing cargo from " + entry.SerialNumber);
+                    continue;
+                }
+                cargos += ", ";
+            }
+            cargos += "]";
+            Console.WriteLine("Cargos within the containers: " + cargos);
+        }
+
+        private string GetContainersList()
+        {
+            string str = "";
             foreach (KeyValuePair<uint, Container> entry in containers)
             {
-                if (entry.Value.cargo != null)
-                    cargos += " [" + entry.Value.cargo.Type + "]";
+                str += string.Format(
+                    "ID = {0}, Container = {1}" + Environment.NewLine,
+                    entry.Key,
+                    entry.Value.SerialNumber
+                );
             }
-            Console.WriteLine("Cargos within the containers: " + cargos);
+            return str;
         }
     }
 }
