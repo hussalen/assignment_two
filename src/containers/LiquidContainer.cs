@@ -7,10 +7,10 @@ namespace assignment_two.src.containers
     {
         private ContainerUtils cu;
 
-        public LiquidContainer(ContainerUtils cu, uint maxPayLoad)
-            : base(cu, maxPayLoad)
+        public LiquidContainer(ContainerUtils containerUtils, uint maxPayLoad)
+            : base(containerUtils, maxPayLoad)
         {
-            this.cu = cu;
+            this.cu = containerUtils;
         }
 
         protected override ContainerUtils.ContainerType SnContainerType
@@ -24,10 +24,10 @@ namespace assignment_two.src.containers
             uint maxForType = 0;
             switch (cargo.Type)
             {
-                case cargoutils.CargoType.Ordinary:
+                case CargoUtils.CargoType.Ordinary:
                     maxForType = MaxPayload * 9 / 10;
                     break;
-                case cargoutils.CargoType.Hazardous:
+                case CargoUtils.CargoType.Hazardous:
                     maxForType = MaxPayload / 2;
                     IHazardNotifier.SendHazardAlert(SerialNumber);
                     break;

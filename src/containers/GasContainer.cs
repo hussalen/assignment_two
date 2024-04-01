@@ -7,10 +7,10 @@ namespace assignment_two.src.containers
     {
         private ContainerUtils cu;
 
-        public GasContainer(ContainerUtils cu, uint maxPayLoad)
-            : base(cu, maxPayLoad)
+        public GasContainer(ContainerUtils containerUtils, uint maxPayLoad)
+            : base(containerUtils, maxPayLoad)
         {
-            this.cu = cu;
+            this.cu = containerUtils;
         }
 
         protected override ContainerUtils.ContainerType SnContainerType
@@ -22,10 +22,10 @@ namespace assignment_two.src.containers
         {
             switch (cargo.Type)
             {
-                case cargoutils.CargoType.Hazardous:
+                case CargoUtils.CargoType.Hazardous:
                     IHazardNotifier.SendHazardAlert(SerialNumber);
                     break;
-                case cargoutils.CargoType.Gas:
+                case CargoUtils.CargoType.Gas:
                     break;
                 default:
                     throw new Exception("Unexpected type: " + cargo.Type);
